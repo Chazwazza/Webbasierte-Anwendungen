@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head><title>Neues Braten Angebot</title></head>
+    <body>
+        <form action="#" method="POST" th:action="@{/angebot/neu}" 
+            th:method="POST" th:object="${angebotform}">
+            <h2>Braten erfassen und bearbeiten</h2>
+                <label>
+                    Anbieter
+                    <!-- <span th:text="#{anbieter}"></span> -->
+                    <input th:unless="${#fields.hasErrors('name')}" style="display: block" type="text" th:field="*{name}" placeholder="Jöndi"><br>
+                    <input th:if="${#fields.hasErrors('name')}" style="display: block; border-color:firebrick;" type="text" th:field="*{name}">
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">huihui</span>
+                </label>
+                <label>
+                    Abholort
+                    <input th:unless="${#fields.hasErrors('abholort')}" style="display: block" type="text" th:field="*{abholort}" placeholder="Schwurbelcity" ><br>
+                    <span th:if="${#fields.hasErrors('abholort')}" th:errors="*{abholort}"></span>
+                </label>
+                <label>
+                    Beschreibung
+                    <input th:unless="${#fields.hasErrors('beschreibung')}" style="display: block" type="text" th:field="*{beschreibung}" placeholder="Trampbraten" ><br>
+                    <span th:if="${#fields.hasErrors('beschreibung')}" th:errors="*{beschreibung}"></span>
+                </label>       
+                <label>
+                    Haltbar bis 
+                    <input th:unless="${#fields.hasErrors('haltbarbis')}" style="display: block" type="date" th:field="*{haltbarbis}" ><br>
+                    <span th:if="${#fields.hasErrors('haltbarbis')}" th:errors="*{haltbarbis}"></span>
+                </label>
+            <input type="submit" name="submit" value="Daten absenden">
+            <p th:text="${test}"></p>
+        </form>
+    </body>
+</html>

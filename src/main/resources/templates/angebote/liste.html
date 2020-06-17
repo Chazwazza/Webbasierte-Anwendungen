@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head><title>Bratenliste</title></head>
+    <body>
+        <form action="#" method="POST"
+            th:action="@{/angebot}" th:method="POST">
+            <h2>Aktuelle Angebote</h2>
+            <table cellpadding="10" border="1">
+                <tr>
+                    <th>Haltbar bis</th>
+                    <th>Anbieter</th>
+                    <th>Abholort</th>
+                    <th>Beschreibung</th>
+                    <th>count</th>
+                    <th>löschen</th>
+                    <th>bearbeiten</th>
+                </tr>
+                <tr th:each="ele, n : ${angebote}">
+                    <td th:text="${ele.haltbarbis}">Haltbarkeit</td>
+                    <td th:text="${ele.name}">Anbieter</td>
+                    <td th:text="${ele.abholort}">Abholtort</td>
+                    <td th:text="${ele.beschreibung}">Beschreibung</td>
+                    <td th:text="${n.count}"></td>
+                    <td><a th:href="@{'/angebot/del/' + ${n.count}}">[del]</a></td>
+                    <td><a th:href="@{'/angebot/neu/' + ${n.count}}">[edit]</a></td>
+                </tr>
+            </table>
+            <p th:text="${hinweis}"></p>
+            <p><a th:href="@{/angebot/neu}">Neuen Bratan anlegen</a></p>
+        </form>
+    </body>
+</html>
