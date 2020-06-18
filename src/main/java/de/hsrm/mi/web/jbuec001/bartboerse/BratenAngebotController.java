@@ -4,26 +4,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.validation.Valid;
-import javax.validation.Validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 
 @Controller
-@RequestMapping
 @SessionAttributes(names = {"angebote"})
 public class BratenAngebotController {
         
@@ -40,22 +34,21 @@ public class BratenAngebotController {
         m.addAttribute("angebote", bratenlist);
     }
 
-    @PostMapping(value="/angebot/neu")
-    public String angebot(  @ModelAttribute("angebote")ArrayList<BratenDaten> lst,
-                            @Valid @ModelAttribute("angebotform")BratenDaten bratenDaten, 
-                            BindingResult result, Model m) {
-        BratenDaten b = new BratenDaten(bratenDaten.getName(), bratenDaten.getAbholort(), 
-                                        bratenDaten.getHaltbarbis(), bratenDaten.getBeschreibung());
+    @PostMapping(value = "/angebot/neu")
+    public String angebot(  @ModelAttribute("angebotform") @Valid BratenDaten bratenDaten, 
+                            BindingResult result, Model m,
+                            @ModelAttribute("angebote")ArrayList<BratenDaten> lst) {
         logger.info("BindungResults = {}", result);
-        logger.info("Die Bratendaten = {}", b.toString());
+        logger.info("Die Bratendaten Name = {}", result.getFieldValue("name"));
         if(result.hasErrors()) {
             logger.error("Results {}", result);
             return "angebote/liste";
-        } else {
-            lst.add(b);
-            m.addAttribute("angebote", lst);
-            return "angebote/liste";
         }
+        BratenDaten b = new BratenDaten(bratenDaten.getName(), bratenDaten.getAbholort(), 
+                                        bratenDaten.getHaltbarbis(), bratenDaten.getBeschreibung());
+        lst.add(b);
+        m.addAttribute("angebote", lst);
+        return "angebote/liste";
     }
 
     @GetMapping("/angebot/del/{n}")

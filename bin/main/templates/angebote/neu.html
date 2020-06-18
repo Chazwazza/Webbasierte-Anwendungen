@@ -5,13 +5,13 @@
         <form action="#" method="POST" th:action="@{/angebot/neu}" 
             th:method="POST" th:object="${angebotform}">
             <h2>Braten erfassen und bearbeiten</h2>
-                <label>
-                    Anbieter
+                <div>
+                    <label>Anbieter</label><br>
                     <!-- <span th:text="#{anbieter}"></span> -->
-                    <input th:unless="${#fields.hasErrors('name')}" style="display: block" type="text" th:field="*{name}" placeholder="Jöndi"><br>
-                    <input th:if="${#fields.hasErrors('name')}" style="display: block; border-color:firebrick;" type="text" th:field="*{name}">
+                    <!--<input th:unless="${#fields.hasErrors('name')}" style="display: block" type="text" th:field="*{name}" placeholder="Jöndi"><br>-->
+                    <input type="text" th:field="*{name}">
                     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">huihui</span>
-                </label>
+                </div>
                 <label>
                     Abholort
                     <input th:unless="${#fields.hasErrors('abholort')}" style="display: block" type="text" th:field="*{abholort}" placeholder="Schwurbelcity" ><br>

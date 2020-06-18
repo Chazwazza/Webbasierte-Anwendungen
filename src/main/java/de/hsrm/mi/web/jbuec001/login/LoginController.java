@@ -1,13 +1,16 @@
 package de.hsrm.mi.web.jbuec001.login;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;   
 
 @Controller
 @RequestMapping
@@ -15,29 +18,35 @@ public class LoginController {
 
     Logger logger = LoggerFactory.getLogger(LoginController.class);
     @GetMapping("/login")
-    public String login() {
-        System.out.println("GetLogin");
+    public String login(Model m) {
+        m.addAttribute("loginform", new Loginbean("", ""));
         return "login";
     }
     
     @PostMapping("/login")
-    public String login(@RequestParam("username")String username, 
-                        @RequestParam("passwort")String passwort, Model m) {
-        System.out.println("PostLogin");
-        logger.info("passwort = {}", passwort);
-        String laenge = Integer.toString(username.length());
-        String pw = username + laenge;
+    public String login(@ModelAttribute("loginform")@Valid Loginbean loginform, 
+                        BindingResult result,  Model m) {
+        if(result.hasErrors()) {
+            logger.info("Login failed");
+            return "login";
+        }
+        logger.info("passwort = {}", loginform.toString());
+        m.addAttribute("user", loginform);
+        return "angebote/liste";
+        
+        
+        /** 
         if(username.isEmpty()) {
             m.addAttribute("hinweis", "Kein Username.");
             return "login";
         }
-        if(passwort.equals(pw)) {
+        if(password.equals(pw)) {
             m.addAttribute("user", username);
             return "hellopage";
         } else {
             m.addAttribute("hinweis", "Falsches Passwort");
-            logger.error("Passwort ist {} und nicht {}", pw, passwort);
-            return "login";
-        }
+            logger.error("Passwort ist {} und nicht {}", pw, password);
+            return "login"; 
+        }*/
     }
 }
