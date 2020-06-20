@@ -51,6 +51,7 @@ public class BratenAngebotController {
         return "angebote/liste";
     }
 
+    //Zum Deleten
     @GetMapping("/angebot/del/{n}")
     public String getDelete(Model m,
                             @ModelAttribute("angebote")ArrayList<BratenDaten> lst,
@@ -62,6 +63,7 @@ public class BratenAngebotController {
         return "angebote/liste";
     }
 
+    //Editieren
     @GetMapping("/angebot/neu/{n}")
     public String editEntry(Model m,
                             @PathVariable String n,
@@ -69,10 +71,8 @@ public class BratenAngebotController {
                             @ModelAttribute("angebotform")BratenDaten bratenDaten) {
         int foo = Integer.parseInt(n);
         BratenDaten bratan = lst.get(foo-1);
-        m.addAttribute("name", bratan.getName());
-        m.addAttribute("abholort", bratan.getAbholort());
-        m.addAttribute("beschreibung", bratan.getBeschreibung());
-        m.addAttribute("haltbarbis", bratan.getHaltbarbis());
+        lst.remove(foo-1);
+        m.addAttribute("angebotform", bratan);
         return "angebote/neu";
     }
 

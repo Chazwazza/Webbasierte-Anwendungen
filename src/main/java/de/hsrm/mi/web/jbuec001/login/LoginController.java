@@ -24,8 +24,9 @@ public class LoginController {
     }
     
     @PostMapping("/login")
-    public String login(@ModelAttribute("loginform")@Valid Loginbean loginform, 
+    public String login(@Valid @ModelAttribute("loginform")Loginbean loginform, 
                         BindingResult result,  Model m) {
+        logger.info("Number of Errors = {}", result);
         if(result.hasErrors()) {
             logger.info("Login failed");
             return "login";
