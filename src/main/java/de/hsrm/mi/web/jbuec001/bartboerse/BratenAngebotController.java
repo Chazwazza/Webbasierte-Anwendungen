@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class BratenAngebotController {
     }
 
     @PostMapping(value = "/angebot/neu")
-    public String angebot(  @ModelAttribute("angebotform") @Valid BratenDaten bratenDaten, 
+    public String angebot(  @Valid @ModelAttribute("angebotform") BratenDaten bratenDaten, 
                             BindingResult result, Model m,
                             @ModelAttribute("angebote")ArrayList<BratenDaten> lst) {
         logger.info("BindungResults = {}", result);
