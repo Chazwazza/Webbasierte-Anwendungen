@@ -28,8 +28,8 @@ public class BratenAngebotController {
     @ModelAttribute("angebote")
     public void initListe(Model m) {
         bratenlist = new ArrayList<BratenDaten>();
-        BratenDaten a = new BratenDaten("Jöndhard", "Vollradsisrode", LocalDate.now(), "leckerer Grünkohlbraten");
-        BratenDaten b = new BratenDaten("Friedfert", "Diedelingen", LocalDate.now(), "Gummibärchenbraten, frisch");
+        BratenDaten a = new BratenDaten("Jöndhard", "Vollradsisrode", LocalDate.now(), "leckerer Grünkohlbraten", 25);
+        BratenDaten b = new BratenDaten("Friedfert", "Diedelingen", LocalDate.now(), "Gummibärchenbraten, frisch", 75);
         bratenlist.add(a);
         bratenlist.add(b);
         m.addAttribute("angebote", bratenlist);
@@ -46,7 +46,7 @@ public class BratenAngebotController {
             return "angebote/liste";
         }
         BratenDaten b = new BratenDaten(bratenDaten.getName(), bratenDaten.getAbholort(), 
-                                        bratenDaten.getHaltbarbis(), bratenDaten.getBeschreibung());
+                                        bratenDaten.getHaltbarbis(), bratenDaten.getBeschreibung(), bratenDaten.getVgradAuswahl());
         lst.add(b);
         m.addAttribute("angebote", lst);
         return "angebote/liste";
@@ -58,6 +58,7 @@ public class BratenAngebotController {
                             @ModelAttribute("angebote")ArrayList<BratenDaten> lst,
                             @ModelAttribute("angebotform")BratenDaten bratenDaten,
                             @PathVariable String n){
+        logger.info("Ich lösche jetzt was!");
         int foo = Integer.parseInt(n);
         lst.remove(foo-1);
         m.addAttribute("hinweis", " " + (foo) + " gelöscht");
@@ -79,7 +80,7 @@ public class BratenAngebotController {
 
     @GetMapping("/angebot/neu")
     public String createBraten(Model m) {
-        m.addAttribute("angebotform", new BratenDaten(null, null, null, null));
+        m.addAttribute("angebotform", new BratenDaten());
         return "angebote/neu";
     }
     

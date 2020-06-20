@@ -11,6 +11,7 @@
                     <th>Anbieter</th>
                     <th>Abholort</th>
                     <th>Beschreibung</th>
+                    <th>Vegetarizitätsgrad</th>
                     <th>count</th>
                     <th>löschen</th>
                     <th>bearbeiten</th>
@@ -20,6 +21,7 @@
                     <td th:text="${ele.name}">Anbieter</td>
                     <td th:text="${ele.abholort}">Abholtort</td>
                     <td th:text="${ele.beschreibung}">Beschreibung</td>
+                    <td th:text="${ele.vgradAuswahl}">Vgrad</td>
                     <td th:text="${n.count}"></td>
                     <td><a th:href="@{'/angebot/del/' + ${n.count}}">[del]</a></td>
                     <td><a th:href="@{'/angebot/neu/' + ${n.count}}">[edit]</a></td>

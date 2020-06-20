@@ -27,16 +27,38 @@ public class BratenDaten {
     @Size(min = 10, max = 80, message = "bitte aussagekräftige Beschreibung eingeben")
     @NotNull(message = "Is zu wenig")
     private String beschreibung;
-    
-    public BratenDaten(@Valid String name, String abholort, LocalDate haltbarbis, String beschreibung) {
+
+    private int[] vgrad = { 0, 25, 50, 75, 100 };
+    private int vgradAuswahl;
+
+    public BratenDaten(){}
+
+    public BratenDaten(@Valid String name, String abholort, LocalDate haltbarbis, String beschreibung, int vgradAuswahl) {
         this.name = name;
         this.abholort = abholort;
         this.haltbarbis = haltbarbis;
         this.beschreibung = beschreibung;
+        this.vgradAuswahl = vgradAuswahl;
     }
 
     public String toString() {
         return " { Name " + name + " Ort " + abholort + " MHD " + haltbarbis + " besch " + beschreibung + " }";
+    }
+    
+    public int[] getVgrad() {
+        return this.vgrad;
+    }
+
+    public void setVgrad(int[] vgrad) {
+        this.vgrad = vgrad;
+    }
+
+    public int getVgradAuswahl() {
+        return this.vgradAuswahl;
+    }
+
+    public void setVgradAuswahl(int vgradAuswahl) {
+        this.vgradAuswahl = vgradAuswahl;
     }
 
     public String getName() {

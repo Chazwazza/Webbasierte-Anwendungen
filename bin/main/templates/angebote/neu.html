@@ -12,21 +12,29 @@
                     <!-- <input type="text" th:field="*{name}"> -->
                     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">huihui</span>
                 </div>
-                <label>
+                <div>
                     Abholort
                     <input th:unless="${#fields.hasErrors('abholort')}" style="display: block" type="text" th:field="*{abholort}" placeholder="Schwurbelcity" ><br>
                     <span th:if="${#fields.hasErrors('abholort')}" th:errors="*{abholort}"></span>
-                </label>
-                <label>
+                </div>
+                <div>
                     Beschreibung
                     <input th:unless="${#fields.hasErrors('beschreibung')}" style="display: block" type="text" th:field="*{beschreibung}" placeholder="Trampbraten" ><br>
                     <span th:if="${#fields.hasErrors('beschreibung')}" th:errors="*{beschreibung}"></span>
-                </label>       
-                <label>
+                </div>       
+                <div>
                     Haltbar bis 
                     <input th:unless="${#fields.hasErrors('haltbarbis')}" style="display: block" type="date" th:field="*{haltbarbis}" ><br>
                     <span th:if="${#fields.hasErrors('haltbarbis')}" th:errors="*{haltbarbis}"></span>
-                </label>
+                </div>
+                <div>
+                    <label>Vegetarizität</label><br>
+                    <select th:field="*{vgradAuswahl}">
+                        <option th:each="vgra: *{vgrad}"
+                                th:value="${vgra}"
+                                th:text="${vgra} + '%'"></option> 
+                    </select>
+                </div><br>
             <input type="submit" name="submit" value="Daten absenden">
             <p th:text="${test}"></p>
         </form>
