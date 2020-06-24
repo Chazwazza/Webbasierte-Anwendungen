@@ -2,6 +2,7 @@ package de.hsrm.mi.web.jbuec001.bartboerse;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -79,13 +80,17 @@ public class BratenAngebotController {
     }
 
     @GetMapping("/angebot/neu")
-    public String createBraten(Model m) {
+    public String createBraten(Model m, Locale locale) {
+        m.addAttribute("sprache", locale.getDisplayLanguage());
         m.addAttribute("angebotform", new BratenDaten());
         return "angebote/neu";
     }
-    
+
+    //Erstes Aufrufen von Path /angebot
     @GetMapping("/angebot")
-    public String angebot(Model m) {
+    public String angebot(Model m, Locale locale) {
+        m.addAttribute("sprache", locale.getDisplayLanguage());
+        m.addAttribute("angebotform", new BratenDaten(null, null, null, null, 0));
         return "angebote/liste";
     }
 }

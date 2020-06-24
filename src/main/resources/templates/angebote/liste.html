@@ -2,19 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head><title>Bratenliste</title></head>
     <body>
+        <select name="sprache" onchange="location = this.value;">
+            <option>Sprache wählen</option>
+            <option th:value="@{?sprache=de}">Deutsch</option>
+            <option th:value="@{?sprache=en}">English</option>
+        </select>
         <form action="#" method="POST"
             th:action="@{/angebot}" th:method="POST">
-            <h2>Aktuelle Angebote</h2>
+            <h2 th:text="#{aktuelleAngebote}"></h2>
             <table cellpadding="10" border="1">
                 <tr>
-                    <th>Haltbar bis</th>
-                    <th>Anbieter</th>
-                    <th>Abholort</th>
-                    <th>Beschreibung</th>
-                    <th>Vegetarizitätsgrad</th>
+                    <th th:text="#{haltbarbis}"></th>
+                    <th th:text="#{name}"></th>
+                    <th th:text="#{abholort}"></th>
+                    <th th:text="#{beschreibung}"></th>
+                    <th th:text="#{vgradAuswahl}"></th>
                     <th>count</th>
-                    <th>löschen</th>
-                    <th>bearbeiten</th>
+                    <th th:text="#{delete}"></th>
+                    <th th:text="#{edit}"></th>
                 </tr>
                 <tr th:each="ele, n : ${angebote}">
                     <td th:text="${ele.haltbarbis}">Haltbarkeit</td>
@@ -28,7 +33,7 @@
                 </tr>
             </table>
             <p th:text="${hinweis}"></p>
-            <p><a th:href="@{/angebot/neu}">Neuen Bratan anlegen</a></p>
+            <p><a th:href="@{/angebot/neu}" th:text="#{neuenBraten}" ></a></p>
         </form>
     </body>
 </html>

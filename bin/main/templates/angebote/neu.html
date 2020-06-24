@@ -1,42 +1,45 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head><title>Neues Braten Angebot</title></head>
     <body>
+        <select name="sprache" onchange="location = this.value;">
+            <option>Sprache wählen</option>
+            <option th:value="@{?sprache=de}">Deutsch</option>
+            <option th:value="@{?sprache=en}">English</option>
+        </select>
         <form action="#" method="POST" th:action="@{/angebot/neu}" 
             th:method="POST" th:object="${angebotform}">
-            <h2>Braten erfassen und bearbeiten</h2>
+            <h2 th:text="#{neuerBraten}"></h2>
                 <div>
-                    <label>Anbieter</label><br>
-                    <!-- <span th:text="#{anbieter}"></span> -->
+                    <label th:text="#{name}"></label><br>
                     <input th:unless="${#fields.hasErrors('name')}" style="display: block" type="text" th:field="*{name}" placeholder="Jöndi"><br>
                     <!-- <input type="text" th:field="*{name}"> -->
                     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">huihui</span>
                 </div>
                 <div>
-                    Abholort
+                    <label th:text="#{abholort}"></label><br>
                     <input th:unless="${#fields.hasErrors('abholort')}" style="display: block" type="text" th:field="*{abholort}" placeholder="Schwurbelcity" ><br>
                     <span th:if="${#fields.hasErrors('abholort')}" th:errors="*{abholort}"></span>
                 </div>
                 <div>
-                    Beschreibung
+                    <label th:text="#{beschreibung}"></label><br>
                     <input th:unless="${#fields.hasErrors('beschreibung')}" style="display: block" type="text" th:field="*{beschreibung}" placeholder="Trampbraten" ><br>
                     <span th:if="${#fields.hasErrors('beschreibung')}" th:errors="*{beschreibung}"></span>
                 </div>       
                 <div>
-                    Haltbar bis 
+                    <label th:text="#{haltbarbis}"></label><br>
                     <input th:unless="${#fields.hasErrors('haltbarbis')}" style="display: block" type="date" th:field="*{haltbarbis}" ><br>
                     <span th:if="${#fields.hasErrors('haltbarbis')}" th:errors="*{haltbarbis}"></span>
                 </div>
                 <div>
-                    <label>Vegetarizität</label><br>
+                    <label th:text="#{vgradAuswahl}"></label><br>
                     <select th:field="*{vgradAuswahl}">
                         <option th:each="vgra: *{vgrad}"
                                 th:value="${vgra}"
                                 th:text="${vgra} + '%'"></option> 
                     </select>
                 </div><br>
-            <input type="submit" name="submit" value="Daten absenden">
-            <p th:text="${test}"></p>
+            <input type="submit" name="submit" th:value="#{Datensenden}">
         </form>
     </body>
 </html>
