@@ -13,8 +13,7 @@
                 <div>
                     <label th:text="#{name}"></label><br>
                     <input th:unless="${#fields.hasErrors('name')}" style="display: block" type="text" th:field="*{name}" placeholder="Jöndi"><br>
-                    <!-- <input type="text" th:field="*{name}"> -->
-                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">huihui</span>
+                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Falsche Daten du Dulli</p>
                 </div>
                 <div>
                     <label th:text="#{abholort}"></label><br>

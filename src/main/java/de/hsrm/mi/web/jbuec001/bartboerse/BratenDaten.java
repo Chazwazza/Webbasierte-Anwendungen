@@ -1,8 +1,10 @@
 package de.hsrm.mi.web.jbuec001.bartboerse;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.Valid;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotEmpty;
 
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,14 +16,15 @@ public class BratenDaten {
 
     @Size(min = 3, message = "Name ist zu kurz")
     @NotNull(message = "Feld ist leer.")
+    @NotEmpty
     private String name;
 
-    @GuteAdresse
+    @NotEmpty
     private String abholort;
 
     @DateTimeFormat(iso = ISO.DATE)
     @Future(message = "iiieh - der ist schon abgelaufen")
-    @NotNull(message = "Feld ist leer.")
+    @NotNull(message = "Feld ist null.")
     private LocalDate haltbarbis;
 
     @Size(min = 10, max = 80, message = "bitte aussagekräftige Beschreibung eingeben")

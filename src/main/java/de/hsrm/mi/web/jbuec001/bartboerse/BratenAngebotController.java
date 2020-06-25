@@ -3,15 +3,22 @@ package de.hsrm.mi.web.jbuec001.bartboerse;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +27,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 
 @Controller
+@Validated
 @SessionAttributes(names = {"angebote"})
 public class BratenAngebotController {
         
-    ArrayList<BratenDaten> bratenlist;
-    Logger logger = LoggerFactory.getLogger(BratenAngebotController.class);
+    private ArrayList<BratenDaten> bratenlist;
+    private final Logger logger = LoggerFactory.getLogger(BratenAngebotController.class);
+    private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    @Autowired
+    private Validator validator = factory.getValidator();
 
     @ModelAttribute("angebote")
     public void initListe(Model m) {
@@ -37,17 +48,28 @@ public class BratenAngebotController {
     }
 
     @PostMapping(value = "/angebot/neu")
-    public String angebot(  @Valid @ModelAttribute("angebotform") BratenDaten bratenDaten, 
+    public String angebot(  @ModelAttribute("angebotform") BratenDaten bratenDaten, 
                             BindingResult result, Model m,
                             @ModelAttribute("angebote")ArrayList<BratenDaten> lst) {
-        logger.info("BindungResults = {}", result);
-        logger.info("Die Bratendaten Name = {}", result.getFieldValue("name"));
-        if(result.hasErrors()) {
-            logger.error("Results {}", result);
-            return "angebote/liste";
-        }
+        Set<ConstraintViolation<BratenDaten>> violations = validator.validate(bratenDaten);
         BratenDaten b = new BratenDaten(bratenDaten.getName(), bratenDaten.getAbholort(), 
                                         bratenDaten.getHaltbarbis(), bratenDaten.getBeschreibung(), bratenDaten.getVgradAuswahl());
+        if (! violations.isEmpty()) {
+            for (ConstraintViolation<BratenDaten> violation : violations) {
+                logger.error("ERROR " +  violation.getMessage() + " bei " + violation.getPropertyPath());
+                String attribute = violation.getPropertyPath().toString();
+                String message = violation.getMessage();
+                ObjectError error = new ObjectError(attribute, message);
+                result.addError(error);
+            }
+            logger.info("NEW BINDINGRESULTS = {}", result);
+            if(result.hasErrors()) {
+                logger.error("Validierungsfehler lelel");
+                m.addAttribute("angebotform", b);
+                return "angebote/neu";
+            }
+        }
+
         lst.add(b);
         m.addAttribute("angebote", lst);
         return "angebote/liste";
