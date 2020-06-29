@@ -65,7 +65,8 @@ public class BratenAngebotController {
             logger.info("NEW BINDINGRESULTS = {}", result);
             if(result.hasErrors()) {
                 logger.error("Validierungsfehler lelel");
-                m.addAttribute("angebotform", b);
+                logger.info("getFieldError", result.getFieldError("name"));
+                //m.addAttribute("angebotform", result);
                 return "angebote/neu";
             }
         }
