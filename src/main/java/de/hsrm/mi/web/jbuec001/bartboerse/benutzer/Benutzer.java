@@ -12,7 +12,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="benutzer")
+@Table(name="BENUTZER")
 public class Benutzer implements Serializable {
     private static final long serialVersionUID = -6400758504290942030L;
 
@@ -24,24 +24,25 @@ public class Benutzer implements Serializable {
     private long version;
 
     @NotNull(message = "Darf nicht leer sein")
-    @Column(name="Loginname", unique=true)
+    @Column(name="LOGINNAME", unique=true)
     private String loginname;
 
     @NotNull(message = "Darf nicht leer sein")
     @Min(3)
-    @Column(name="passwort")
+    @Column(name="PASSWORT")
     private String passwort;
 
     @NotNull(message = "Darf nicht Leer sein")
-    @Column(name="vollername")
-    private String vollname;
+    @Column(name="VOLLERNAME")
+    private String vollername;
 
+    @Column(name="NUTZUNGSBEDINGUNGOK")
     private boolean nutzungsbedingungenok;
 
-    public Benutzer(String loginname, String passwort, String vollname, boolean nutzungsbedingungenok) {
+    public Benutzer(String loginname, String passwort, String vollername, boolean nutzungsbedingungenok) {
         this.loginname = loginname;
         this.passwort = passwort;
-        this.vollname = vollname;
+        this.vollername = vollername;
         this.nutzungsbedingungenok = nutzungsbedingungenok;
     }
 
@@ -61,12 +62,12 @@ public class Benutzer implements Serializable {
         this.passwort = passwort;
     }
 
-    public String getVollname() {
-        return vollname;
+    public String getVollername() {
+        return vollername;
     }
 
     public void setVollname(String vollname) {
-        this.vollname = vollname;
+        this.vollername = vollname;
     }
 
     public boolean isNutzungsbedingungenok() {
@@ -84,7 +85,7 @@ public class Benutzer implements Serializable {
         result = prime * result + ((loginname == null) ? 0 : loginname.hashCode());
         result = prime * result + (nutzungsbedingungenok ? 1231 : 1237);
         result = prime * result + ((passwort == null) ? 0 : passwort.hashCode());
-        result = prime * result + ((vollname == null) ? 0 : vollname.hashCode());
+        result = prime * result + ((vollername == null) ? 0 : vollername.hashCode());
         return result;
     }
 
@@ -96,7 +97,7 @@ public class Benutzer implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        benutzer other = (benutzer) obj;
+        Benutzer other = (Benutzer) obj;
         if (loginname == null) {
             if (other.loginname != null)
                 return false;
@@ -109,10 +110,10 @@ public class Benutzer implements Serializable {
                 return false;
         } else if (!passwort.equals(other.passwort))
             return false;
-        if (vollname == null) {
-            if (other.vollname != null)
+        if (vollername == null) {
+            if (other.vollername != null)
                 return false;
-        } else if (!vollname.equals(other.vollname))
+        } else if (!vollername.equals(other.vollername))
             return false;
         return true;
     }

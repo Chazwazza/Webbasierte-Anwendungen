@@ -9,11 +9,16 @@
             <h2>Login</h2>
                 <!--<p th:text=${hinweis}></p>-->
                 <label>Username</label>
-                <input type="text" th:field="*{username}"><br>
-                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                <input type="text" th:field="*{loginname}"><br>
+                <span th:if="${#fields.hasErrors('loginname')}" th:errors="*{loginname}"></span>
                 <label>Passwort</label>
-                <input type="password" th:field="*{password}"><br>
-                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                <input type="password" th:field="*{passwort}"><br>
+                <span th:if="${#fields.hasErrors('passwort')}" th:errors="*{passwort}"></span>
+                <label>Voller Name</label>
+                <input type="text" th:field="*{vollername}"><br>
+                <span th:if="${#fields.hasErrors('vollername')}" th:errors="*{vollername}"></span>
+                <label>Zustimmung Nutzeungsbedinungen</label>
+                <input type="radio" th:field="*{nutzungsbedingungenok}" th:value="false" /><br>
             <input type="submit" value="login" name="submit">
         </body>
     </form>

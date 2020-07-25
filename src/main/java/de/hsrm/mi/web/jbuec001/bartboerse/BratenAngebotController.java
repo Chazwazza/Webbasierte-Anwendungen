@@ -6,7 +6,6 @@ import java.util.Locale;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -26,16 +25,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 
+
 @Controller
 @Validated
 @SessionAttributes(names = {"angebote"})
 public class BratenAngebotController {
         
-    private ArrayList<BratenDaten> bratenlist;
-    private final Logger logger = LoggerFactory.getLogger(BratenAngebotController.class);
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    @Autowired
-    private Validator validator = factory.getValidator();
+    @Autowired private Validator validator = factory.getValidator();
+    private final Logger logger = LoggerFactory.getLogger(BratenAngebotController.class);
+    private ArrayList<BratenDaten> bratenlist;
+
 
     @ModelAttribute("angebote")
     public void initListe(Model m) {
@@ -47,6 +47,7 @@ public class BratenAngebotController {
         m.addAttribute("angebote", bratenlist);
     }
 
+
     @PostMapping(value = "/angebot/neu")
     public String angebot(  @ModelAttribute("angebotform") BratenDaten bratenDaten, 
                             BindingResult result, Model m,
@@ -54,7 +55,8 @@ public class BratenAngebotController {
         Set<ConstraintViolation<BratenDaten>> violations = validator.validate(bratenDaten);
         BratenDaten b = new BratenDaten(bratenDaten.getName(), bratenDaten.getAbholort(), 
                                         bratenDaten.getHaltbarbis(), bratenDaten.getBeschreibung(), bratenDaten.getVgradAuswahl());
-        if (! violations.isEmpty()) {
+        
+        if (!violations.isEmpty()) {
             for (ConstraintViolation<BratenDaten> violation : violations) {
                 logger.error("ERROR " +  violation.getMessage() + " bei " + violation.getPropertyPath());
                 String attribute = violation.getPropertyPath().toString();
@@ -70,7 +72,6 @@ public class BratenAngebotController {
                 return "angebote/neu";
             }
         }
-
         lst.add(b);
         m.addAttribute("angebote", lst);
         return "angebote/liste";

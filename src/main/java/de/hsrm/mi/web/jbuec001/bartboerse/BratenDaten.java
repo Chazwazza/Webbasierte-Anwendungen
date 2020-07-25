@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import de.hsrm.mi.web.jbuec001.bartboerse.validator.GuteAdresse;
 
 public class BratenDaten {
 
