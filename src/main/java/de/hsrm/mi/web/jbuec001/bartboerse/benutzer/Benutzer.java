@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.persistence.GeneratedValue;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -28,7 +27,6 @@ public class Benutzer implements Serializable {
     private String loginname;
 
     @NotNull(message = "Darf nicht leer sein")
-    @Min(3)
     @Column(name="PASSWORT")
     private String passwort;
 
@@ -38,6 +36,8 @@ public class Benutzer implements Serializable {
 
     @Column(name="NUTZUNGSBEDINGUNGOK")
     private boolean nutzungsbedingungenok;
+
+    public Benutzer(){}
 
     public Benutzer(String loginname, String passwort, String vollername, boolean nutzungsbedingungenok) {
         this.loginname = loginname;
@@ -87,6 +87,10 @@ public class Benutzer implements Serializable {
         result = prime * result + ((passwort == null) ? 0 : passwort.hashCode());
         result = prime * result + ((vollername == null) ? 0 : vollername.hashCode());
         return result;
+    }
+    @Override
+    public String toString() {
+        return "Loginname " + getLoginname() + ", Passwort " + getPasswort() + ", Vollername " + getVollername() + ", Nutzungsbed " + isNutzungsbedingungenok();
     }
 
     @Override

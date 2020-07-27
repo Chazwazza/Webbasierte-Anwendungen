@@ -11,7 +11,8 @@ public class BenutzerSerciveImpl implements BenutzerService {
 
     @Override
     public boolean pruefeLogin(String loginname, String passwort) {
-        if (passwort.equals(loginname + "!")) {
+        Benutzer b = findeBenutzer(loginname);
+        if(b.getPasswort().equals(passwort)) {
             return true;
         } else {
             return false;
@@ -20,19 +21,24 @@ public class BenutzerSerciveImpl implements BenutzerService {
 
     @Override
     public String ermittlePasswort(String loginname) {
-        String pw = "";
-        return pw;
+        Benutzer b = findeBenutzer(loginname);
+        if(b == null)
+            return null;
+        return b.getLoginname();
     }
 
     @Override
     public Benutzer registriereBenutzer(Benutzer neuerBenutzer) {
-        
-        return null;
+        Benutzer b = benutzerRepository.save(neuerBenutzer);
+        return b;
     }
 
     @Override
     public Benutzer findeBenutzer(String loginname) {
-
+        for(Benutzer b : benutzerRepository.findAll()) {
+            if(b.getLoginname().equalsIgnoreCase(loginname))
+                return b;
+        }
         return null;
     }
     

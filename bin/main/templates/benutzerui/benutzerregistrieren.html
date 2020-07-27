@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head><title>Registrieren</title></head>
+    <body>
+        <form action="#" method="POST" th:action="@{/benutzer}"
+        th:method="POST" th:object="${benutzerform}">
+            <h2>Registrieren</h2>
+            <div>
+                <label>Loginname</label>
+                <input th:unless="${#fields.hasErrors('loginname')}" style="display: block" type="text" th:field="*{loginname}" placeholder="Username" /><br>
+                <p th:if="${#fields.hasErrors('loginname')}" th:errors="*{loginname}">Ungültig</p>
+            </div>
+            <div>
+                <label>Passwort</label>
+                <input th:unless="${#fields.hasErrors('passwort')}" style="display: block" type="text" th:field="*{passwort}" placeholder="BigBertha123" /><br>
+                <p th:if="${#fields.hasErrors('passwort')}" th:errors="*{passwort}">Ungültig PW</p>
+            </div>
+            <div>
+                <label>Vollername</label>
+                <input th:unless="${#fields.hasErrors('vollername')}" style="display: block" type="text" th:field="*{vollername}" placeholder="Big Bertha" /><br>
+                <p th:if="${#fields.hasErrors('vollername')}" th:errors="*{vollername}">Ungültig PW</p> 
+            </div>
+            <div>
+                <input type="radio" th:field="*{nutzungsbedingungenok}" th:value="true">Nutzungsbedinungen</input><br>
+            </div><br>
+            <input type="submit" name="submit">
+        </form>
+    </body>
+</html>

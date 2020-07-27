@@ -55,7 +55,7 @@ public class BratenAngebotController {
         Set<ConstraintViolation<BratenDaten>> violations = validator.validate(bratenDaten);
         BratenDaten b = new BratenDaten(bratenDaten.getName(), bratenDaten.getAbholort(), 
                                         bratenDaten.getHaltbarbis(), bratenDaten.getBeschreibung(), bratenDaten.getVgradAuswahl());
-        
+        logger.info("Bratandatan: ", b.toString());
         if (!violations.isEmpty()) {
             for (ConstraintViolation<BratenDaten> violation : violations) {
                 logger.error("ERROR " +  violation.getMessage() + " bei " + violation.getPropertyPath());
@@ -114,7 +114,7 @@ public class BratenAngebotController {
     @GetMapping("/angebot")
     public String angebot(Model m, Locale locale) {
         m.addAttribute("sprache", locale.getDisplayLanguage());
-        m.addAttribute("angebotform", new BratenDaten(null, null, null, null, 0));
+        //m.addAttribute("angebotform", new BratenDaten(null, null, null, null, 0));
         return "angebote/liste";
     }
 }

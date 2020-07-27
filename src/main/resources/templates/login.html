@@ -6,20 +6,29 @@
 <form action="#" method="POST" th:action="@{/login}"  
     th:method="POST" th:object="${loginform}">
         <body>
-            <h2>Login</h2>
+            <h2>Login oder nicht?</h2>
                 <!--<p th:text=${hinweis}></p>-->
-                <label>Username</label>
-                <input type="text" th:field="*{loginname}"><br>
-                <span th:if="${#fields.hasErrors('loginname')}" th:errors="*{loginname}"></span>
-                <label>Passwort</label>
-                <input type="password" th:field="*{passwort}"><br>
-                <span th:if="${#fields.hasErrors('passwort')}" th:errors="*{passwort}"></span>
-                <label>Voller Name</label>
-                <input type="text" th:field="*{vollername}"><br>
-                <span th:if="${#fields.hasErrors('vollername')}" th:errors="*{vollername}"></span>
-                <label>Zustimmung Nutzeungsbedinungen</label>
-                <input type="radio" th:field="*{nutzungsbedingungenok}" th:value="false" /><br>
-            <input type="submit" value="login" name="submit">
+                <div>
+                    <label>Username</label>
+                    <input type="text" th:field="*{loginname}"><br>
+                    <p th:if="${#fields.hasErrors('loginname')}" th:errors="*{loginname}"></p>
+                </div>
+                <div>
+                    <label>Passwort</label>
+                    <input type="password" th:field="*{passwort}"><br>
+                    <p th:if="${#fields.hasErrors('passwort')}" th:errors="*{passwort}"></p>
+                </div>
+                <div>
+                    <label>Voller Name</label>
+                    <input type="text" th:field="*{vollername}"><br>
+                    <p th:if="${#fields.hasErrors('vollername')}" th:errors="*{vollername}"></p>
+                </div>
+                <div>
+                    <label>Zustimmung Nutzeungsbedinungen!!</label>
+                    <input type="radio" th:field="*{nutzungsbedingungenok}" th:value="true" /><br>
+                </div>
+            <input type="submit" value="login" name="submit"><br>
+            <a th:href="@{/benutzer}">Kein Konto?</a>
         </body>
     </form>
 </html>
