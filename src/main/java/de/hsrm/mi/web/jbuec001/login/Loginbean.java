@@ -2,16 +2,15 @@ package de.hsrm.mi.web.jbuec001.login;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class Loginbean {
 
     @NotNull
-    @Size(min = 3, max = 20, message = "Username sollte zwischen 3 und 20 Zeichen haben")
+    @Min(2)
     private String username;
     
     @NotNull(message = "No password")
-    @Min(3)
+    @Min(2)
     private String password;
     
     public Loginbean(String username, String password) {

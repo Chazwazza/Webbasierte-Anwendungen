@@ -30,7 +30,7 @@ public class Benutzer implements Serializable {
     @Column(name="PASSWORT")
     private String passwort;
 
-    @NotNull(message = "Darf nicht Leer sein")
+    @NotNull
     @Column(name="VOLLERNAME")
     private String vollername;
 

@@ -36,6 +36,7 @@ public class BenutzerController {
     public String benutzer(@ModelAttribute("benutzerform")Benutzer benutzerForm, 
                             BindingResult result, Model m) {
     logger.info("benutzerForm: " + benutzerForm.toString());
+    benutzerForm.setVollname("Bob Ried");
     Set<ConstraintViolation<Benutzer>> violations = validator.validate(benutzerForm);
     Benutzer b = new Benutzer(benutzerForm.getLoginname(), benutzerForm.getPasswort(), (benutzerForm.getLoginname() + " Ried"), benutzerForm.isNutzungsbedingungenok());
     if(!violations.isEmpty()) {
@@ -49,13 +50,15 @@ public class BenutzerController {
     }
 
     logger.info("Die Bindungresults = {}", result);
-    if(result.hasErrors() || b.isNutzungsbedingungenok()) {
+    if(result.hasErrors() || !(b.isNutzungsbedingungenok())) {
         logger.error("Validationserror: " + result.getFieldError());
         return "benutzerui/benutzerregistrieren";
     } else {
-
-        benutzerService.registriereBenutzer(b);
-        return "login";
+        Benutzer neuB = benutzerService.registriereBenutzer(b);
+        if(neuB == null) {
+            return "benutzerui/benutzerregistrieren";
+        }
+        return "redirect:/login";
     }
 
     }

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import de.hsrm.mi.web.jbuec001.bartboerse.benutzer.Benutzer;
 import de.hsrm.mi.web.jbuec001.bartboerse.benutzer.BenutzerService;
 
 @Controller
@@ -32,23 +31,23 @@ public class LoginController {
     @Autowired private BenutzerService benutzerService;
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-
+    //Erstes Abrufen der Page
     @GetMapping("/login")
     public String login(Model m) {
-        m.addAttribute("loginform", new Benutzer(null, null, null, false));
+        m.addAttribute("loginform", new Loginbean(null, null));
         return "login";
     }
     
     @PostMapping(value = "/login")
-    public String login(@ModelAttribute("loginform")Benutzer benutzerForm, 
+    public String login(@ModelAttribute("loginform")Loginbean benutzerForm, 
                         BindingResult result,  Model m) {
-        Benutzer neuerBenutzer = new Benutzer(benutzerForm.getLoginname(), benutzerForm.getPasswort(), benutzerForm.getVollername(), benutzerForm.isNutzungsbedingungenok());
-        logger.info("new USER: ", neuerBenutzer.toString());
+        Loginbean neuerBenutzer = new Loginbean(benutzerForm.getUsername(), benutzerForm.getPassword());
+        logger.info("new USER: " + neuerBenutzer.toString());
         if  (benutzerForm != null) {
-            Set<ConstraintViolation<Benutzer>> violations = validator.validate(benutzerForm);
+            Set<ConstraintViolation<Loginbean>> violations = validator.validate(benutzerForm);
             if (!violations.isEmpty()) {
-                for (ConstraintViolation<Benutzer> violation : violations) {
-                    logger.error("ERROR", violation.getMessage() + " bei " + violation.getPropertyPath());
+                for (ConstraintViolation<Loginbean> violation : violations) {
+                    //logger.error("ERROR", violation.getMessage() + " bei " + violation.getPropertyPath());
                     String attribute = violation.getPropertyPath().toString();
                     String msg = violation.getMessage();
                     ObjectError error = new ObjectError(attribute, msg);
@@ -57,11 +56,10 @@ public class LoginController {
             }
         }
         
-        logger.info("Die Userdata", neuerBenutzer.toString());
+        logger.info("Die Userdata " + neuerBenutzer.toString());
         logger.info("Binding Result", result);
-        Boolean checkLogin = benutzerService.pruefeLogin(neuerBenutzer.getLoginname(), neuerBenutzer.getPasswort());
+        Boolean checkLogin = benutzerService.pruefeLogin(neuerBenutzer.getUsername(), neuerBenutzer.getPassword());
         if (checkLogin) {
-            benutzerService.registriereBenutzer(neuerBenutzer);
             return "angebote/liste";
         } else {
             return "login";

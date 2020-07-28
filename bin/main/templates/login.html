@@ -10,22 +10,13 @@
                 <!--<p th:text=${hinweis}></p>-->
                 <div>
                     <label>Username</label>
-                    <input type="text" th:field="*{loginname}"><br>
-                    <p th:if="${#fields.hasErrors('loginname')}" th:errors="*{loginname}"></p>
+                    <input type="text" th:field="*{username}"><br>
+                    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
                 </div>
                 <div>
                     <label>Passwort</label>
-                    <input type="password" th:field="*{passwort}"><br>
-                    <p th:if="${#fields.hasErrors('passwort')}" th:errors="*{passwort}"></p>
-                </div>
-                <div>
-                    <label>Voller Name</label>
-                    <input type="text" th:field="*{vollername}"><br>
-                    <p th:if="${#fields.hasErrors('vollername')}" th:errors="*{vollername}"></p>
-                </div>
-                <div>
-                    <label>Zustimmung Nutzeungsbedinungen!!</label>
-                    <input type="radio" th:field="*{nutzungsbedingungenok}" th:value="true" /><br>
+                    <input type="password" th:field="*{password}"><br>
+                    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                 </div>
             <input type="submit" value="login" name="submit"><br>
             <a th:href="@{/benutzer}">Kein Konto?</a>

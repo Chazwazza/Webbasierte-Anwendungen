@@ -1,5 +1,7 @@
 package de.hsrm.mi.web.jbuec001.bartboerse.benutzer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,12 +10,22 @@ public class BenutzerSerciveImpl implements BenutzerService {
 
     @Autowired 
     BenutzerRepository benutzerRepository;
+    private Logger logger = LoggerFactory.getLogger(BenutzerSerciveImpl.class);
 
     @Override
     public boolean pruefeLogin(String loginname, String passwort) {
         Benutzer b = findeBenutzer(loginname);
-        if(b.getPasswort().equals(passwort)) {
-            return true;
+        if(b==null) {
+            logger.info("user ist leer");
+        }
+        if(!(b == null)) {
+            String userPw = b.getPasswort();
+            logger.info("PASSWORDs: " + userPw + " in DB, " + passwort + " getting this shit");
+            if(userPw.equals(passwort)) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -29,13 +41,18 @@ public class BenutzerSerciveImpl implements BenutzerService {
 
     @Override
     public Benutzer registriereBenutzer(Benutzer neuerBenutzer) {
-        Benutzer b = benutzerRepository.save(neuerBenutzer);
-        return b;
+        Benutzer erg = findeBenutzer(neuerBenutzer.getLoginname());
+        if(erg == null) {
+            Benutzer b = benutzerRepository.save(neuerBenutzer);
+            return b;
+        }
+        return null;
     }
 
     @Override
     public Benutzer findeBenutzer(String loginname) {
         for(Benutzer b : benutzerRepository.findAll()) {
+            //logger.info("USER: " + b.getLoginname());
             if(b.getLoginname().equalsIgnoreCase(loginname))
                 return b;
         }
