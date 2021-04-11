@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head><title>Bratenliste</title></head>
+    <body>
+        <select name="sprache" onchange="location = this.value;">
+            <option>Sprache wählen</option>
+            <option th:value="@{?sprache=de}">Deutsch</option>
+            <option th:value="@{?sprache=en}">English</option>
+        </select>
+        <form action="#" method="POST"
+            th:action="@{braten/angebot}" th:method="POST">
+            <h2 th:text="#{aktuelleAngebote}"></h2>
+            <table cellpadding="10" border="1">
+                <tr>
+                    <th th:text="#{haltbarbis}"></th>
+                    <th th:text="#{name}"></th>
+                    <th th:text="#{abholort}"></th>
+                    <th th:text="#{beschreibung}"></th>
+                    <th th:text="#{vgradAuswahl}"></th>
+                    <th>id</th>
+                    <th th:text="#{delete}"></th>
+                    <th th:text="#{edit}"></th>
+                </tr>
+                <tr th:each="ele : ${angebote}">
+                    <td th:text="${ele.haltbarbis}">Haltbarkeit</td>
+                    <td th:text="${ele.anbieter.name}">Anbieter</td>
+                    <td th:text="${ele.abholort}">Abholtort</td>
+                    <td th:text="${ele.beschreibung}">Beschreibung</td>
+                    <td th:text="${ele.vgradAuswahl}">Vgrad</td>
+                    <td th:text="${ele.id}"></td>
+                    <td><a th:href="@{'braten/angebot/del/' + ${ele.id}}">[del]</a></td>
+                    <td><a th:href="@{'braten/angebot/neu/' + ${ele.id}}">[edit]</a></td>
+                </tr>
+            </table>
+            <p th:text="${hinweis}"></p>
+            <p><a th:href="@{braten/angebot/neu}" th:text="#{neuenBraten}" ></a></p>
+        </form>
+    </body>
+</html>

@@ -19,17 +19,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import de.hsrm.mi.web.jbuec001.bartboerse.benutzer.BenutzerService;
 
 @Controller
 @RequestMapping
+@SessionAttributes(names = { "loggedinusername" })
 public class LoginController {
 
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     @Autowired private Validator validator = factory.getValidator();
     @Autowired private BenutzerService benutzerService;
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
+
+    @ModelAttribute("loggedinusername")
+    public void initActiveUser(Model m) {
+        m.addAttribute("loggedinusername", "Hello");
+    }
+
 
     //Erstes Abrufen der Page
     @GetMapping("/login")
@@ -60,7 +68,8 @@ public class LoginController {
         logger.info("Binding Result", result);
         Boolean checkLogin = benutzerService.pruefeLogin(neuerBenutzer.getUsername(), neuerBenutzer.getPassword());
         if (checkLogin) {
-            return "angebote/liste";
+            m.addAttribute("loggedinusername", neuerBenutzer.getUsername());
+            return "braten/liste";
         } else {
             return "login";
         }

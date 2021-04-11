@@ -8,14 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class BenutzerSerciveImpl implements BenutzerService {
 
-    @Autowired 
-    BenutzerRepository benutzerRepository;
+    @Autowired BenutzerRepository benutzerRepository;
     private Logger logger = LoggerFactory.getLogger(BenutzerSerciveImpl.class);
 
     @Override
     public boolean pruefeLogin(String loginname, String passwort) {
         Benutzer b = findeBenutzer(loginname);
-        if(b==null) {
+        if(b == null) {
             logger.info("user ist leer");
         }
         if(!(b == null)) {
@@ -43,18 +42,16 @@ public class BenutzerSerciveImpl implements BenutzerService {
     public Benutzer registriereBenutzer(Benutzer neuerBenutzer) {
         Benutzer erg = findeBenutzer(neuerBenutzer.getLoginname());
         if(erg == null) {
-            Benutzer b = benutzerRepository.save(neuerBenutzer);
-            return b;
+            return benutzerRepository.save(neuerBenutzer);
         }
         return null;
     }
 
     @Override
     public Benutzer findeBenutzer(String loginname) {
-        for(Benutzer b : benutzerRepository.findAll()) {
-            //logger.info("USER: " + b.getLoginname());
-            if(b.getLoginname().equalsIgnoreCase(loginname))
-                return b;
+        Benutzer benutzer = benutzerRepository.findByLoginname(loginname);
+        if(benutzer == null) {
+            return benutzer;
         }
         return null;
     }

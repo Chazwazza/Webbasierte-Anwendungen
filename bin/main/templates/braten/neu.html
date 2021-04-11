@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head><title>Neues Braten Angebot</title></head>
+    <body>
+        <select name="sprache" onchange="location = this.value;">
+            <option>Sprache wählen</option>
+            <option th:value="@{?sprache=de}">Deutsch</option>
+            <option th:value="@{?sprache=en}">English</option>
+        </select>
+        <form action="#" method="POST" th:action="@{braten/angebot/neu}" 
+            th:method="POST" th:object="${angebotform}">
+            <h2 th:text="#{neuerBraten}"></h2>
+                <div>
+                    <label th:text="#{abholort}"></label><br>
+                    <input th:unless="${#fields.hasErrors('abholort')}" style="display: block" type="text" th:field="*{abholort}" placeholder="Schwurbelcity" ><br>
+                    <span th:if="${#fields.hasErrors('abholort')}" th:errors="*{abholort}"></span>
+                </div>
+                <div>
+                    <label th:text="#{beschreibung}"></label><br>
+                    <input th:unless="${#fields.hasErrors('beschreibung')}" style="display: block" type="text" th:field="*{beschreibung}" placeholder="Trampbraten" ><br>
+                    <span th:if="${#fields.hasErrors('beschreibung')}" th:errors="*{beschreibung}"></span>
+                </div>       
+                <div>
+                    <label th:text="#{haltbarbis}"></label><br>
+                    <input th:unless="${#fields.hasErrors('haltbarbis')}" style="display: block" type="date" th:field="*{haltbarbis}" ><br>
+                    <span th:if="${#fields.hasErrors('haltbarbis')}" th:errors="*{haltbarbis}"></span>
+                </div>
+                <div>
+                    <label th:text="#{vgradAuswahl}"></label><br>
+                    <select th:field="*{vgradAuswahl}">
+                        <option th:each="vgra: *{vgrad}"
+                                th:value="${vgra}"
+                                th:text="${vgra} + '%'"></option> 
+                    </select>
+                </div><br>
+            <input type="submit" name="submit" th:value="#{Datensenden}">
+        </form>
+    </body>
+</html>

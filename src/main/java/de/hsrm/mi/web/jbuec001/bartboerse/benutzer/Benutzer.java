@@ -1,14 +1,19 @@
 package de.hsrm.mi.web.jbuec001.bartboerse.benutzer;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
 
 import javax.persistence.Entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.persistence.GeneratedValue;
 import javax.validation.constraints.NotNull;
+
+import de.hsrm.mi.web.jbuec001.bartboerse.bratrepo.Braten;
 
 @Entity
 @Table(name="BENUTZER")
@@ -18,6 +23,9 @@ public class Benutzer implements Serializable {
     @Id
     @GeneratedValue
     private long userId;
+
+    @OneToMany(mappedBy = "anbieter")
+    private Collection<Braten> angebote = new HashSet<Braten>();
 
     @Version
     private long version;
@@ -37,6 +45,7 @@ public class Benutzer implements Serializable {
     @Column(name="NUTZUNGSBEDINGUNGOK")
     private boolean nutzungsbedingungenok;
 
+
     public Benutzer(){}
 
     public Benutzer(String loginname, String passwort, String vollername, boolean nutzungsbedingungenok) {
@@ -44,6 +53,10 @@ public class Benutzer implements Serializable {
         this.passwort = passwort;
         this.vollername = vollername;
         this.nutzungsbedingungenok = nutzungsbedingungenok;
+    }
+
+    public Collection<Braten> getAngebote() {
+        return this.angebote;
     }
 
     public String getLoginname() {
